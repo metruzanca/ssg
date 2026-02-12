@@ -62,5 +62,14 @@
 	"simple-git-hooks": {
 		"pre-commit": "bun run lint && bun run type-check"
 	},
-	"types": "./dist/index.d.ts"
+	"types": "./dist/index.d.ts",
+	"dependencies": {
+		"@astrojs/tailwind": "^6.0.2",
+		"@tailwindcss/typography": "^0.5.19",
+		"astro": "^5.17.2",
+		"gray-matter": "^4.0.3",
+		"sharp": "^0.34.5",
+		"shiki": "^3.22.0",
+		"tailwindcss": "^4.1.18"
+	}
 }
