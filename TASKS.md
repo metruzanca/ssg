@@ -11,6 +11,8 @@ SSG is an opinionated static site generator built on top of Astro's programmatic
 - **Progressive Enhancement**: Static-first approach where JavaScript enhances but isn't required
 - **Content Structure**: GitHub-repo-style organization with readme.md files and nested directories
 - **Configuration Priority**: CLI flags > root readme.md frontmatter > built-in defaults
+- **URL Structure**: Clean URLs (`/about/` → `/about/index.html`) for SEO and usability
+- **Styling**: Tailwind CSS for utility-first styling with dark mode support
 
 ## Phase 1: Core Foundation
 
@@ -25,6 +27,17 @@ SSG is an opinionated static site generator built on top of Astro's programmatic
 - [ ] Add `--config` flag for custom config file path
 - [ ] Add input directory validation with helpful error messages
 - [ ] Setup proper error handling and logging with colored output
+
+### Dev Server & Watch Mode
+
+**Context**: A development server with live reload is essential for content authoring workflow. We leverage Astro's built-in dev server with file watching to provide instant feedback during development.
+
+- [ ] Add `--dev` flag to CLI for development mode
+- [ ] Implement file watcher for content and asset changes
+- [ ] Setup Astro dev server integration with HMR
+- [ ] Configure live reload for markdown content changes
+- [ ] Add `--port` flag for custom dev server port (default 4321)
+- [ ] Implement graceful shutdown and error recovery
 
 ### Content Discovery
 
@@ -43,7 +56,9 @@ SSG is an opinionated static site generator built on top of Astro's programmatic
 - [ ] Install Astro and required dependencies (@astrojs/markdown-remark)
 - [ ] Implement dynamic Astro configuration generation based on discovered content
 - [ ] Setup programmatic build API integration with proper error handling
-- [ ] Configure static output to `dist/` directory with proper file structure
+- [ ] Configure static output to `dist/` directory with clean URL structure
+- [ ] Setup clean URLs (`/about/` → `/about/index.html`) for all pages
+- [ ] Configure asset output organization (`/assets/`, `/images/`)
 - [ ] Test basic build pipeline with simple markdown content
 
 ### Frontmatter System
@@ -56,6 +71,19 @@ SSG is an opinionated static site generator built on top of Astro's programmatic
 - [ ] Create TypeScript types for configuration with proper inheritance
 - [ ] Implement config priority system (CLI > root frontmatter > defaults)
 - [ ] Add frontmatter normalization and default value injection
+
+### Styling System
+
+**Context**: Tailwind CSS provides a utility-first approach that keeps styling maintainable and consistent. We use CSS custom properties for theming, enabling dark mode and future customization while maintaining opinionated defaults.
+
+- [ ] Install and configure Tailwind CSS with Astro (@astrojs/tailwind)
+- [ ] Define color palette using CSS custom properties for theming
+- [ ] Create typography scale for readable prose content (@tailwindcss/typography)
+- [ ] Implement dark mode with class-based toggle and system preference detection
+- [ ] Configure responsive breakpoints (mobile-first approach)
+- [ ] Create base layout template with header, main content, footer structure
+- [ ] Style code blocks to complement Shiki syntax highlighting themes
+- [ ] Add skip-link and basic accessibility styling
 
 ## Phase 2: Content Processing
 
@@ -300,6 +328,16 @@ SSG is an opinionated static site generator built on top of Astro's programmatic
 - [ ] Implement plugin loading system with validation and security
 - [ ] Document plugin development guide with examples
 - [ ] Consider plugin marketplace or registry for community contributions
+
+### Embeds and Transclusion
+
+**Context**: Embedding other pages statically within content enables wiki-style knowledge bases. This requires careful handling of recursive embeds and proper link attribution.
+
+- [ ] Implement page transclusion syntax detection in markdown
+- [ ] Create static page embedding during build (with link to original)
+- [ ] Handle recursive transclusion with depth limits
+- [ ] Style embedded content distinctly from inline content
+- [ ] Add transclusion caching to avoid duplicate processing
 
 ### Advanced Features
 
