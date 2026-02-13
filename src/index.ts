@@ -232,7 +232,15 @@ async function generateAstroPages(
 
 	// Generate each page
 	for (const { page, outputPath } of pagesToGenerate) {
-		const astroContent = generatePageContent(page)
+		// Calculate depth for relative import path
+		// Path is: src/pages/<outputPath>/index.astro
+		// Need to go from src/pages/<outputPath>/ up to src/, then into layouts/
+		// Root page (src/pages/index.astro): need ../layouts/ (1 level from pages/)
+		// Subdir page (src/pages/blog/post/index.astro): need ../../../layouts/ (3 levels)
+		const depth = outputPath === 'index' ? 0 : outputPath.split('/').length
+		const importPath = '../'.repeat(depth + 1) + 'layouts/Layout.astro'
+
+		const astroContent = generatePageContent(page, importPath)
 		const fileName =
 			outputPath === 'index' ? 'index.astro' : `${outputPath}/index.astro`
 		const filePath = join(tempDir, 'src/pages', fileName)
@@ -242,9 +250,12 @@ async function generateAstroPages(
 	}
 }
 
-function generatePageContent(page: ContentPage): string {
+function generatePageContent(page: ContentPage, importPath: string): string {
+	// Escape backticks and dollar signs to prevent template literal interpolation issues
+	const escapedContent = page.content.replace(/`/g, '\\`').replace(/\$/g, '\\$')
+
 	return `---
-import Layout from '../../layouts/Layout.astro'
+import Layout from '${importPath}'
 
 const title = ${JSON.stringify(page.title)}
 const description = ${JSON.stringify(page.frontmatter.description || '')}
@@ -253,7 +264,7 @@ const description = ${JSON.stringify(page.frontmatter.description || '')}
 <Layout title={title} description={description}>
 	<article class="prose max-w-none">
 		<h1>{title}</h1>
-		<div>${page.content}</div>
+		<div set:html={${JSON.stringify(escapedContent)}} />
 	</article>
 </Layout>
 `

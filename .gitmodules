@@ -1,0 +1,3 @@
+[submodule "examples/zanca.dev"]
+	path = examples/zanca.dev
+	url = https://github.com/metruzanca/metruzanca.git
